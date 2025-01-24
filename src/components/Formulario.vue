@@ -6,7 +6,6 @@ import { IncidenciaService } from '../services/IncidenciaService.js';
 const incidencia = ref({
   numeroAula: '',
   correoDocente: '',
-  fechaInicio: '', 
   descripcionIncidencia: ''
 });
 
@@ -25,17 +24,21 @@ const enviarFormulario = async () => {
   const incidenciaJson = {
     numeroAula: incidencia.value.numeroAula,
     correoDocente: incidencia.value.correoDocente,
-    fechaInicio: incidencia.value.fechaInicio,
     descripcionIncidencia: incidencia.value.descripcionIncidencia,
   };
 
  
   try {
     const message = await IncidenciaService.crearIncidencia(incidenciaJson);
-    alert(message); 
     console.log('Respuesta del servidor:', message);
+
+    // Limpiar los campos del formulario
+    incidencia.value = {
+      numeroAula: '',
+      correoDocente: '',
+      descripcionIncidencia: ''
+    };
   } catch (error) {
-    alert(`Ocurrió un error: ${error.message}`);
     console.error('Error al registrar la incidencia:', error);
     
   }
@@ -65,16 +68,6 @@ const enviarFormulario = async () => {
           id="correoDocente"
           v-model="incidencia.correoDocente"
           placeholder="Tu correo"
-          required
-        />
-      </div>
-
-      <div class="cajas-formulario">
-        <label for="fechaInicio">Fecha de Inicio <span class="required">*</span></label>
-        <input
-          type="date"
-          id="fechaInicio"
-          v-model="incidencia.fechaInicio"
           required
         />
       </div>
@@ -134,6 +127,7 @@ body {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
+    color: #007bff;
 }
 
 .cajas-formulario input,
