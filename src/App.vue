@@ -5,10 +5,14 @@ import Formulario from './components/Formulario.vue'
 <template>
   <header>
     <img alt="Vue logo" class="logo" src="./assets/logo.png" width="230" height="200" />
+    <nav>
+      <RouterLink to="/">Formulario</RouterLink>
+      <RouterLink to="/tablaIncidencias">Formulario Incidencias</RouterLink>
+    </nav>
   </header>
 
   <main>
-    <Formulario/>
+    <RouterView/>
   </main>
 </template>
 
