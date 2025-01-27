@@ -5,7 +5,7 @@ import { obtenerIncidencias, enviarModificacion } from "../services/TablaInciden
 const incidencias = ref([]);
 
 const convertirFecha = (fechaArray) => {
-  const [year, month, day, hour, minute, second] = fechaArray;
+  const [year, month, day, hour, minute, second, millisecond] = fechaArray;
   return `${day.toString().padStart(2, "0")}/${(month).toString().padStart(2, "0")}/${year} ${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
 };
 
@@ -21,14 +21,6 @@ const cargarIncidencias = async () => {
   }
 };
 
-const enviarModificacionIncidencia = async (incidencia) => {
-  try {
-    await enviarModificacion(incidencia);
-    alert("Solución enviada con éxito");
-  } catch (error) {
-    alert("Hubo un problema al enviar la solución");
-  }
-};
 
 onMounted(cargarIncidencias);
 </script>
@@ -55,6 +47,7 @@ onMounted(cargarIncidencias);
           <td>{{ incidencia.correoDocente }}</td>
           <td>{{ incidencia.numeroAula }}</td>
           <td>{{ incidencia.descripcionIncidencia }}</td>
+
           <td>
             <select v-model="incidencia.estadoIncidencia">
               <option>PENDIENTE</option>
@@ -100,7 +93,7 @@ body {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 1000px;
+  width: 100%;
   margin: 20px auto;
 }
 
@@ -134,6 +127,9 @@ body {
   padding: 10px;
   font-size: 14px;
   color: black;
+}
+.tabla-correo-docente{
+  width: 100px;  
 }
 
 .tabla-incidencias th {

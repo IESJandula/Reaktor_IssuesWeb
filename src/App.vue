@@ -3,44 +3,25 @@ import Formulario from './components/Formulario.vue'
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.png" width="230" height="200" />
-    <nav>
-      <RouterLink to="/">Formulario</RouterLink>
-      <RouterLink to="/tablaIncidencias">Formulario Incidencias</RouterLink>
-    </nav>
-  </header>
-
   <main>
     <RouterView/>
   </main>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
+body{
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;          
+  width: 100%;  
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
 </style>

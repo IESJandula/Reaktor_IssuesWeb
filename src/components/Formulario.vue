@@ -108,6 +108,7 @@ body {
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     width: 100%;
+    margin: auto;   
 }
 
 .contenedor-formulario h1 {
@@ -170,50 +171,5 @@ body {
     color: red;
 }
 
-@media (max-width: 768px) {
-    body {
-        padding: 20px;
-    }
 
-    .contenedor-formulario  {
-        width: 100%;
-        padding: 15px;
-    }
-
-    .cajas-formulario label {
-        font-size: 14px;
-    }
-
-    .cajas-formulario input,
-    .cajas-formulario textarea {
-        font-size: 12px;
-        padding: 8px;
-    }
-
-    .cajas-formulario button {
-        font-size: 14px;
-        padding: 8px;
-    }
-}
-
-@media (max-width: 480px) {
-    .contenedor-formulario  {
-        padding: 10px;
-    }
-
-    .cajas-formulario label {
-        font-size: 12px;
-    }
-
-    .cajas-formulario input,
-    .cajas-formulario textarea {
-        font-size: 10px;
-        padding: 6px;
-    }
-
-    .cajas-formulario button {
-        font-size: 12px;
-        padding: 6px;
-    }
-}
 </style>
