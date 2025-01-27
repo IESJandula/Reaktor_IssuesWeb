@@ -127,9 +127,11 @@ body {
   padding: 10px;
   font-size: 14px;
   color: black;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 .tabla-correo-docente{
-  width: 100px;  
+  width: 100px;
 }
 
 .tabla-incidencias th {
