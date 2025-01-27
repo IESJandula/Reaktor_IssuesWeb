@@ -1,5 +1,36 @@
 <script setup>
+import { ref, onMounted } from "vue";
+import { obtenerIncidencias, enviarModificacion } from "../services/TablaIncidenciasService.js";
 
+const incidencias = ref([]);
+
+const convertirFecha = (fechaArray) => {
+  const [year, month, day, hour, minute, second] = fechaArray;
+  return `${day.toString().padStart(2, "0")}/${(month).toString().padStart(2, "0")}/${year} ${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
+};
+
+const cargarIncidencias = async () => {
+  try {
+    const data = await obtenerIncidencias();
+    incidencias.value = data.map((incidencia) => ({
+      ...incidencia,
+      fechaLegible: convertirFecha(incidencia.fechaIncidencia),
+    }));
+  } catch (error) {
+    console.error("No se pudo cargar las incidencias");
+  }
+};
+
+const enviarModificacionIncidencia = async (incidencia) => {
+  try {
+    await enviarModificacion(incidencia);
+    alert("Solución enviada con éxito");
+  } catch (error) {
+    alert("Hubo un problema al enviar la solución");
+  }
+};
+
+onMounted(cargarIncidencias);
 </script>
 
 <template>
@@ -9,37 +40,42 @@
       <thead>
         <tr>
           <th>Fecha</th>
-          <th>Profesor</th>
+          <th>Docente</th>
           <th>Aula</th>
           <th>Descripción</th>
           <th>Estado</th>
-          <th>Solución</th>
+          <th>Comentario</th>
           <th>Confirmación</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>01/01/2025</td>
-          <td>Francisco Benítez Chico</td>
-          <td>A10</td>
-          <td>No funciona el proyector.</td>
+        <!-- Renderizar dinámicamente las filas -->
+        <tr v-for="incidencia in incidencias" :key="incidencia.numeroAula + incidencia.fechaLegible">
+          <td>{{ incidencia.fechaLegible }}</td>
+          <td>{{ incidencia.correoDocente }}</td>
+          <td>{{ incidencia.numeroAula }}</td>
+          <td>{{ incidencia.descripcionIncidencia }}</td>
           <td>
-            <select>
-              <option>Pendiente</option>
-              <option>En progreso</option>
-              <option>Resuelta</option>
-              <option>Cancelada</option>
-              <option>Duplicada</option>
+            <select v-model="incidencia.estadoIncidencia">
+              <option>PENDIENTE</option>
+              <option>EN PROGRESO</option>
+              <option>RESUELTA</option>
+              <option>CANCELADA</option>
+              <option>DUPLICADA</option>
             </select>
           </td>
           <td>
-            <input type="text" id="solucion" placeholder="Tu respuesta" required>
+            <input
+              type="text"
+              v-model="incidencia.comentario"
+              placeholder="Comentario de la incidencia"
+              required
+            />
           </td>
           <td>
-            <button>Enviar</button>
+            <button @click="enviarModificacion(incidencia)">Enviar</button>
           </td>
         </tr>
-
       </tbody>
     </table>
 
@@ -49,6 +85,7 @@
     </div>
   </div>
 </template>
+
 
 <style scoped>
 body {
