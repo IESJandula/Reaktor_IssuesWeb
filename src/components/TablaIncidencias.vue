@@ -3,6 +3,8 @@ import { ref, onMounted } from "vue";
 import { obtenerIncidencias, enviarModificacion } from "../services/TablaIncidenciasService.js";
 
 const incidencias = ref([]);
+const paginaActual = ref(1);
+const tamanoPagina = 10;
 
 const convertirFecha = (fechaArray) => {
   const [year, month, day, hour, minute, second, millisecond] = fechaArray;
@@ -11,16 +13,38 @@ const convertirFecha = (fechaArray) => {
 
 const cargarIncidencias = async () => {
   try {
-    const data = await obtenerIncidencias();
-    incidencias.value = data.map((incidencia) => ({
+    //  Asegurar que siempre pedimos datos nuevos y NO acumulamos
+    const data = await obtenerIncidencias(paginaActual.value - 1, tamanoPagina);
+    incidencias.value=[];
+    //  Reiniciar el array ANTES de asignar nuevos datos
+    incidencias.value = data.content.map((incidencia) => ({
       ...incidencia,
       fechaLegible: convertirFecha(incidencia.fechaIncidencia),
     }));
+
   } catch (error) {
-    console.error("No se pudo cargar las incidencias");
+    console.error("No se pudo cargar las incidencias", error);
   }
 };
 
+
+
+// Métodos para avanzar y retroceder páginas
+const avanzarPagina = () => {
+
+    paginaActual.value++;
+    cargarIncidencias();
+    window.location.reload()
+  
+};
+
+const retrocederPagina = () => {
+  if (paginaActual.value > 1) {
+    paginaActual.value--;
+    cargarIncidencias();
+    window.location.reload()
+  }
+};
 
 onMounted(cargarIncidencias);
 </script>
@@ -43,6 +67,7 @@ onMounted(cargarIncidencias);
       <tbody>
         <!-- Renderizar dinámicamente las filas -->
         <tr v-for="incidencia in incidencias" :key="incidencia.numeroAula + incidencia.fechaLegible">
+
           <td>{{ incidencia.fechaLegible }}</td>
           <td>{{ incidencia.correoDocente }}</td>
           <td>{{ incidencia.numeroAula }}</td>
@@ -72,9 +97,14 @@ onMounted(cargarIncidencias);
       </tbody>
     </table>
 
+    <!-- Paginación -->
     <div class="paginacion">
-      <button class="boton-paginacion" disabled>&#8592;</button>
-      <button class="boton-paginacion">&#8594;</button>
+      <button class="boton-paginacion" @click="retrocederPagina()" :disabled="paginaActual === 1">
+        &#8592;
+      </button>
+      <button class="boton-paginacion" @click="avanzarPagina()" :disabled="incidencias.length < tamanoPagina">
+        &#8594;
+      </button>
     </div>
   </div>
 </template>

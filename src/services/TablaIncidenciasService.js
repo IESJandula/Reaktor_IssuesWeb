@@ -1,19 +1,18 @@
 const BASE_URL = "http://localhost:8888/incidencias";
 
-// Función para obtener las incidencias
-export const obtenerIncidencias = async () => {
+export const obtenerIncidencias = async (page = 0, size = 10) => {
   try {
-    const response = await fetch(`${BASE_URL}/listarIncidenciasOrdenadas`);
+    const response = await fetch(`${BASE_URL}/listarIncidenciasOrdenadas?page=${page}&size=${size}`);
     if (!response.ok) {
       throw new Error("Error al obtener las incidencias");
     }
-    const data = await response.json();
-    return data;
+    return await response.json();
   } catch (error) {
     console.error("Error al obtener las incidencias:", error);
     throw error;
   }
 };
+
 
 // Función para enviar una modificación de la incidencia
 export const enviarModificacion = async (incidencia) => {
