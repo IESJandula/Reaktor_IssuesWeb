@@ -34,3 +34,15 @@ export const enviarModificacion = async (incidencia) => {
     throw error;
   }
 };
+
+export default {
+  methods: {
+    validarYEnviar(incidencia) {
+      if (!incidencia.comentario || incidencia.comentario.trim() === '') {
+        alert('Por favor, ingresa un comentario antes de enviar.');
+        return;
+      }
+      this.enviarModificacion(incidencia);
+    }
+  }
+}

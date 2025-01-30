@@ -89,7 +89,7 @@ onMounted(cargarIncidencias);
             />
           </td>
           <td>
-            <button @click="enviarModificacion(incidencia)">Enviar</button>
+            <button @click="enviarModificacion(incidencia)":disabled="!incidencia.comentario || incidencia.comentario.trim() === ''">Enviar</button>
           </td>
         </tr>
       </tbody>
