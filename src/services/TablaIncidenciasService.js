@@ -27,10 +27,7 @@ export const enviarModificacion = async (incidencia) => {
     });
     if (!response.ok) {
       throw new Error("Error al enviar la solución");
-    }
-    window.location.reload();
-  
-   
+    }  
   } catch (error) {
     console.error("Error al enviar la solución:", error);
     throw error;
