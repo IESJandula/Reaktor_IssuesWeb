@@ -34,7 +34,6 @@ const avanzarPagina = () => {
 
     paginaActual.value++;
     cargarIncidencias();
-    window.location.reload()
   
 };
 
@@ -42,7 +41,6 @@ const retrocederPagina = () => {
   if (paginaActual.value > 1) {
     paginaActual.value--;
     cargarIncidencias();
-    window.location.reload()
   }
 };
 
@@ -66,7 +64,7 @@ onMounted(cargarIncidencias);
       </thead>
       <tbody>
         <!-- Renderizar dinámicamente las filas -->
-        <tr v-for="incidencia in incidencias" :key="incidencia.numeroAula + incidencia.fechaLegible">
+        <tr v-for="incidencia in incidencias" :key="incidencia.numeroAula + incidencia.fechaIncidencia + incidencia.correoDocente">
 
           <td>{{ incidencia.fechaLegible }}</td>
           <td>{{ incidencia.correoDocente }}</td>
