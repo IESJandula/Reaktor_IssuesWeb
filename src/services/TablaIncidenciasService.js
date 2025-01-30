@@ -28,21 +28,11 @@ export const enviarModificacion = async (incidencia) => {
     if (!response.ok) {
       throw new Error("Error al enviar la solución");
     }
-    return await response.json();
+    window.location.reload();
+  
+   
   } catch (error) {
     console.error("Error al enviar la solución:", error);
     throw error;
   }
 };
-
-export default {
-  methods: {
-    validarYEnviar(incidencia) {
-      if (!incidencia.comentario || incidencia.comentario.trim() === '') {
-        alert('Por favor, ingresa un comentario antes de enviar.');
-        return;
-      }
-      this.enviarModificacion(incidencia);
-    }
-  }
-}
